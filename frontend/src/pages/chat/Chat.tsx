@@ -12,7 +12,7 @@ import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter'
 import { nord } from 'react-syntax-highlighter/dist/esm/styles/prism'
 
 import styles from './Chat.module.css'
-import Contoso from '../../assets/Contoso.svg'
+import Contoso from '../../assets/Crayon.svg'
 import { XSSAllowTags } from '../../constants/sanatizeAllowables'
 
 import {
@@ -90,7 +90,7 @@ const Chat = () => {
     ) {
       let subtitle = `${appStateContext.state.isCosmosDBAvailable.status}. Please contact the site administrator.`
       setErrorMsg({
-        title: 'Chat history is not enabled',
+        title: 'No guardo los chats',
         subtitle: subtitle
       })
       toggleErrorDialog()
@@ -183,7 +183,7 @@ const Chat = () => {
     } else {
       conversation = appStateContext?.state?.currentChat
       if (!conversation) {
-        console.error('Conversation not found.')
+        console.error('No me acuerdo de la conversación.')
         setIsLoading(false)
         setShowLoadingMessage(false)
         abortFuncs.current = abortFuncs.current.filter(a => a !== abortController)
@@ -240,7 +240,7 @@ const Chat = () => {
                 console.error(e)
                 throw e
               } else {
-                console.log('Incomplete message. Continuing...')
+                console.log('Mensaje Incompleto, Calculaaaaaando...')
               }
             }
           })
@@ -252,7 +252,7 @@ const Chat = () => {
     } catch (e) {
       if (!abortController.signal.aborted) {
         let errorMessage =
-          'An error occurred. Please try again. If the problem persists, please contact the site administrator.'
+          'Ha pasado algo chungo , vuelve a darle y rezaremos los dos.'
         if (result.error?.message) {
           errorMessage = result.error.message
         } else if (typeof result.error === 'string') {
@@ -320,7 +320,7 @@ const Chat = () => {
       setMessages(request.messages)
     }
     let result = {} as ChatResponse
-    var errorResponseMessage = 'Please try again. If the problem persists, please contact the site administrator.'
+    var errorResponseMessage = 'Algo chungo ha pasado y no se porque, dale otra vez y si no , resetea.'
     try {
       const response = conversationId
         ? await historyGenerate(request, abortController.signal, conversationId)
@@ -332,7 +332,7 @@ const Chat = () => {
         let errorChatMsg: ChatMessage = {
           id: uuid(),
           role: ERROR,
-          content: `There was an error generating a response. Chat history can't be saved at this time. ${errorResponseMessage}`,
+          content: `Algo chungo a pasado y no se puede guardar el historico. ${errorResponseMessage}`,
           date: new Date().toISOString()
         }
         let resultConversation
@@ -398,7 +398,7 @@ const Chat = () => {
                 console.error(e)
                 throw e
               } else {
-                console.log('Incomplete message. Continuing...')
+                console.log('Mensaje Inclomplet, calculaaaando...')
               }
             }
           })
@@ -460,7 +460,7 @@ const Chat = () => {
         if (conversationId) {
           resultConversation = appStateContext?.state?.chatHistory?.find(conv => conv.id === conversationId)
           if (!resultConversation) {
-            console.error('Conversation not found.')
+            console.error('He perdido la conversación, que marrón.')
             setIsLoading(false)
             setShowLoadingMessage(false)
             abortFuncs.current = abortFuncs.current.filter(a => a !== abortController)
@@ -516,8 +516,8 @@ const Chat = () => {
       let response = await historyClear(appStateContext?.state.currentChat.id)
       if (!response.ok) {
         setErrorMsg({
-          title: 'Error clearing current chat',
-          subtitle: 'Please try again. If the problem persists, please contact the site administrator.'
+          title: 'Error purgando el chat',
+          subtitle: 'Vuelve a darle y rezaremos los dos para que funcione.'
         })
         toggleErrorDialog()
       } else {
@@ -556,8 +556,8 @@ const Chat = () => {
         // Returning the prettified error message
         if (reason !== '') {
           return (
-            'The prompt was filtered due to triggering Azure OpenAI’s content filtering system.\n' +
-            'Reason: This prompt contains content flagged as ' +
+            'Algo chungo has escrito y me has ofendido como chat, no olvides que soy un chat milenial.\n' +
+            'Razon: Lo que has escrito me ha ofendido porque: ' +
             reason +
             '\n\n' +
             'Please modify your prompt and retry. Learn more: https://go.microsoft.com/fwlink/?linkid=2198766'
@@ -565,7 +565,7 @@ const Chat = () => {
         }
       }
     } catch (e) {
-      console.error('Failed to parse the error:', e)
+      console.error('No entiendo este error, mira a ver tu:', e)
     }
     return errorMessage
   }
@@ -583,7 +583,7 @@ const Chat = () => {
         let newErrorMessage = errorCodeMessage + ' ' + innerErrorString
         errorMessage = newErrorMessage
       } catch (e) {
-        console.error('Error parsing inner error message: ', e)
+        console.error('No entiendo este error, mira a ver tu: ', e)
       }
     }
 
@@ -623,7 +623,7 @@ const Chat = () => {
     if (appStateContext && appStateContext.state.currentChat && processMessages === messageStatus.Done) {
       if (appStateContext.state.isCosmosDBAvailable.cosmosDB) {
         if (!appStateContext?.state.currentChat?.messages) {
-          console.error('Failure fetching current chat state.')
+          console.error('Me he despistado y no se por donde ibamos en este chat')
           return
         }
         const noContentError = appStateContext.state.currentChat.messages.find(m => m.role === ERROR)
@@ -633,7 +633,7 @@ const Chat = () => {
             .then(res => {
               if (!res.ok) {
                 let errorMessage =
-                  "An error occurred. Answers can't be saved at this time. If the problem persists, please contact the site administrator."
+                  "Ha pasado algo chungo, vuelve a darle y si sigue fallando está mu mal la cosa , resetea o algo."
                 let errorChatMsg: ChatMessage = {
                   id: uuid(),
                   role: ERROR,
@@ -809,7 +809,7 @@ const Chat = () => {
                     <div className={styles.chatMessageGpt}>
                       <Answer
                         answer={{
-                          answer: "Generating answer...",
+                          answer: "Dandole vueltas al tema....",
                           citations: [],
                           plotly_data: null
                         }}
@@ -829,7 +829,7 @@ const Chat = () => {
                   horizontal
                   className={styles.stopGeneratingContainer}
                   role="button"
-                  aria-label="Stop generating"
+                  aria-label="Para el runrun"
                   tabIndex={0}
                   onClick={stopGenerating}
                   onKeyDown={e => (e.key === 'Enter' || e.key === ' ' ? stopGenerating() : null)}>
@@ -863,7 +863,7 @@ const Chat = () => {
                     iconProps={{ iconName: 'Add' }}
                     onClick={newChat}
                     disabled={disabledButton()}
-                    aria-label="start a new chat button"
+                    aria-label="Nuevo Chat"
                   />
                 )}
                 <CommandBarButton
